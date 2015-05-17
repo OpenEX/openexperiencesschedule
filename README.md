@@ -10,7 +10,7 @@ https://eonasdan.github.io/bootstrap-datetimepicker/
 
 much of descriptions/usage was written quickly and can contain some mistakes. It will be improved
 
-/* 
+
 License: 
 openexperiencesschedule bootstrap jQuery plugin
 License GNU GENERAL PUBLIC LICENSE Version 2, June 1991
@@ -78,7 +78,7 @@ Example data and automatic bootstrap button:
             : then an object with three integer properties: "startingDateGMT", "duration" (f.e object['startingDateGMT']), which are in seconds - GMT (roughly means the time as it is seen in England). The thirs chosenElements is array of names and values of checbox/radio buttons which are checked like this: chosenElements['element-name']="thirdvaluechecked"
             : then initially updated/changed copy of the source element containing raw data for the plugin, so it possibly could be replaced    
             Info - what you can do is to replace the original source data element with the copy or change only some chosen params as you wish. Each time the data is loaded to the schedule using jQuery css way so the object is not rememembered
-*/ 
+ 
 
 
 
@@ -184,12 +184,12 @@ $(".data-rooms-schedule-container .data-rooms-schedule").on("beforeopen", functi
                                 
                                           
         
-}).on("beforestartingdaychange", function (event, dateAndDurationObject) {
+\}).on("beforestartingdaychange", function (event, dateAndDurationObject) \{
         
        $(this).attr("data-opx-date-temporary", dateAndDurationObject['startingDateGMT']);
        $(this).attr("data-opx-duration-temporary",  dateAndDurationObject['duration']);
        
-}).on("savechanges", function (event, startingdateanddurationandcheckedelementsvalues, preupdatedSourceDataElementCopy) {
+\}).on("savechanges", function (event, startingdateanddurationandcheckedelementsvalues, preupdatedSourceDataElementCopy) {
 
     $("#twopartdatetime-date-picker").val(startingdateanddurationandcheckedelementsvalues['startingDateGMT']) 
     
@@ -254,10 +254,10 @@ $(".data-rooms-schedule-container .data-rooms-schedule").on("beforeopen", functi
 
 
     
-            /*array[    {
+            array[    {
                     startingDateGMT
                     duration
-                }, preupdatedSourceDataElementCopy   ]*/
+                }, preupdatedSourceDataElementCopy   ]
     
     
     
