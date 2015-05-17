@@ -85,187 +85,22 @@ Example data and automatic bootstrap button:
 
 An example of using it in sombody's own code
 
-
+Remember to use synchronuous ajax request so that the schedule plugin gets fresh data at the right time.
 
 
 
 $(".data-rooms-schedule-container .data-rooms-schedule").on("beforeopen", function () {
 
-        operatingRoomSurgerySelect=$(".operating-room-container.active select")
+
+}).on("beforestartingdaychange", function (event, dateAndDurationObject) \{
         
-        if (operatingRoomSurgerySelect.length>0) {
-                roomSelect=operatingRoomSurgerySelect;
-        } else {
-                roomSelect=$(".operating-room-code-container.active select")
-        }        
-        
-        expectedStartingDayOffset=-2
-        eventsForDaysFromStartingDate=7
-        roomOptions=$("option", roomSelect);
-        roomList="";
-        roomListCounter=0;
-        roomListSeparator="";
-        for (i=0;i<roomOptions.length;i++) {
-            roomId=parseInt(roomOptions.eq(i).val());
-            if (roomId>0) {
-                if (roomListCounter>0) roomListSeparator="|";
-                roomList+=roomListSeparator+roomId;
-                roomListCounter++;
-            }    
-        }
-        
-        
-        jRelatedhiddenelement=$("#twopartdatetime")
 
+}).on("savechanges", function (event, startingdateanddurationandcheckedelementsvalues, preupdatedSourceDataElementCopy) {
 
-        jUseOwnDurationChecboxElement=$("#use-custom-average-time")
-        jOwnDurationElement=$(".time-for-a-surgery-info-container #average-duration")        
-
-        jFinalTimeFromCodeElement=$(".surgery-time-from-code .surgery-info-time > span:first-child")                         
-
-        if (jUseOwnDurationChecboxElement.get()[0].checked) {
-            duration=parseInt(jOwnDurationElement.val())
-        } else {
-            timeArray=jFinalTimeFromCodeElement.html().split(":");
-            miliseconds=(timeArray[0]*60*60*1000)+(timeArray[1]*60*1000)
-            seconds=miliseconds/1000
-            duration=seconds
-        }
-
-        ajaxpath=$("body").attr("data-base-path")+"/"+$("body").attr("data-controller-name")+"/getSpecificEventsForRequestedDays";        
-
-        objectforajax= {
-          "current-element-id": $(".item-id-tag").html(),  
-          "startingDate": jRelatedhiddenelement.val(),
-          "duration": duration,// duration isn't necessary it is optional - the outcome will be preformatted by this
-          "roomList": roomList,
-          "eventsForDaysFromStartingDate": "7",
-          "expectedStartingDayOffset": "-1"
-        }	
-        
-        $.ajax({
-              url: ajaxpath,
-              type: "POST",
-              data: objectforajax,
-              async: false,
-              success: function (data, textStatus, jqXHR) {
-
-                    //alert(data)
-                    
-                    intermediateContainer=document.createElement("div");
-                    $(intermediateContainer).html(data);
-                    
-                    $(".opx-row[data-row-id='"+roomSelect.val()+"'][data-radio='schedule-room-number']", intermediateContainer).attr("data-active-radio", "true");   
-                    
-                    // there are events defined so we need to be careful not replacing the main element but setting up proper attributes only.
-                    updatedjCallenderSourceData=$(".data-rooms-schedule", intermediateContainer)
-                    updatedjCallenderSourceData.attr("data-utc-offset", $("body").attr('data-utc-offset'));
-                    
-                    jCallenderSourceData=$(".data-rooms-schedule-container > div:first-child")
-
-                    jCallenderSourceData.attr("data-refresh-events-every-x-seconds", updatedjCallenderSourceData.attr("data-refresh-events-every-x-seconds"))
-                    jCallenderSourceData.attr("data-opx-date", updatedjCallenderSourceData.attr("data-opx-date"))
-                    jCallenderSourceData.attr("data-opx-duration", updatedjCallenderSourceData.attr("data-opx-duration"))
-                    jCallenderSourceData.attr("data-opx-calendar-starting-date-offset", updatedjCallenderSourceData.attr("data-opx-calendar-starting-date-offset"))
-                    
-                    jCallenderSourceData.html($("> *", updatedjCallenderSourceData));
-                    
-                    return true; 		
-                 
-                  
-              },
-              error: function () {
-                      alert('couldn\'t have received the ICD10 info code.')
-              },
-              dataType: "text"
-              }
-          );  
-                                
-                                
-                                          
-        
-\}).on("beforestartingdaychange", function (event, dateAndDurationObject) \{
-        
-       $(this).attr("data-opx-date-temporary", dateAndDurationObject['startingDateGMT']);
-       $(this).attr("data-opx-duration-temporary",  dateAndDurationObject['duration']);
-       
-\}).on("savechanges", function (event, startingdateanddurationandcheckedelementsvalues, preupdatedSourceDataElementCopy) {
-
-    $("#twopartdatetime-date-picker").val(startingdateanddurationandcheckedelementsvalues['startingDateGMT']) 
-    
-    var date = new Date(parseInt(startingdateanddurationandcheckedelementsvalues['startingDateGMT'])*1000);
-
-    jDateelement=$("#twopartdatetime-date-picker");
-    jTimeHoldingElement=$("#twopartdatetime-time-picker");
-    jRelatedhiddenelement=$("#twopartdatetime");
-
-    jTimeHoldingElement.val(date.getHours()+":"+date.getMinutes())
-    jTimeHoldingElement.parent().trigger("reconstruct") 
-
-    jDateelement.val(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
-    jDateelement.parent().trigger("reconstruct") 
-
-    jRelatedhiddenelement.val(startingdateanddurationandcheckedelementsvalues['startingDateGMT'])
-
-
-    customTimeAgreementCheckboxElement=$("#use-custom-average-time");
-
-    timeHoldingSpanElement=$(".surgery-info-time > span:first-child"); 
-    timeArray=timeHoldingSpanElement.html().split(":");
-    if (timeArray.length==2) {
-        miliseconds=(parseInt(timeArray[0])*60*60*1000)+(parseInt(timeArray[1])*60*1000)
-        seconds=miliseconds/1000
-        duration=seconds
-    } else {
-        miliseconds=0;seconds=0;duration=0;
-    }
-    
-    averateDurationVisualElement=$("#average-duration-picker")
-    averateDurationSecondsElement=$("#average-duration")
-
-    if (!customTimeAgreementCheckboxElement.get()[0].checked) {
-        if (seconds!=parseInt(startingdateanddurationandcheckedelementsvalues['duration'])) {
-            customTimeAgreementCheckboxElement.attr("checked", "checked");
-            customTimeAgreementCheckboxElement.get()[0].checked=true;
-            customTimeAgreementCheckboxElement.trigger("change")
-            averateDurationSecondsElement.val(startingdateanddurationandcheckedelementsvalues['duration'])
-            averateDurationVisualElement.val((Math.floor(parseInt(startingdateanddurationandcheckedelementsvalues['duration'])/3600))+":"+Math.floor(((parseInt(startingdateanddurationandcheckedelementsvalues['duration'])%3600)/60)))
-            averateDurationVisualElement.parent().trigger("reconstruct") 
-        }
-    }  else {
-            averateDurationSecondsElement.val(startingdateanddurationandcheckedelementsvalues['duration'])
-            averateDurationVisualElement.val((Math.floor(parseInt(startingdateanddurationandcheckedelementsvalues['duration'])/3600))+":"+Math.floor(((parseInt(startingdateanddurationandcheckedelementsvalues['duration'])%3600)/60)))
-            averateDurationVisualElement.parent().trigger("reconstruct") 
-    }
-    
-
-    chosenElements=startingdateanddurationandcheckedelementsvalues['chosenElements'];
-
-    
-    operatingRoomSurgerySelect=$(".operating-room-container.active select")
-        
-    if (operatingRoomSurgerySelect.length>0) {
-        roomSelect=operatingRoomSurgerySelect;
-    } else {
-        roomSelect=$(".operating-room-code-container.active select")
-    }        
-
-    $("option[value='"+parseInt(chosenElements['schedule-room-number'])+"']", roomSelect).attr('selected', 'selected').get()[0].selected=true  
-
-
-    
-            array[    {
-                    startingDateGMT
-                    duration
-                }, preupdatedSourceDataElementCopy   ]
-    
-    
     
 }).on("refresh", function (event) {
         
 
-       //$(this).trigger("beforeopen")
-       
        
 })
 
