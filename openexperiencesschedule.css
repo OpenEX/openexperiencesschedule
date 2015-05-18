@@ -1,0 +1,137 @@
+.openex-callendar {display: none;}
+#openex-timeline .openex-callendar {display:block;}
+
+.openex-modal-contents {position: absolute;top: 0;width: 100%;}
+#openex-timeline {height:100% !important}
+#openex-timeline .modal-body {height: 65%;overflow-y:scroll;margin-top: 6.2em;}
+#openex-timeline .openex-modal-footer {height: 2em;padding-bottom:0;}
+
+#openex-timeline .opx-weekdays-container {position: fixed;top: 0;left: 0;width: 100%;overflow-y:scroll;height: 6.3em;}
+#openex-timeline .opx-current-event-controlls {height: 2em;width: 100%;width: 100%;background: #fff;}
+#openex-timeline .opx-current-event-slider {height: 2em;width: 100%;background: #fff;position: relative ;overflow:hidden;}
+#openex-timeline .opx-weekdays-container .opx-current-event-slider {top: -0.5em;margin-bottom: -0.5em;}
+#openex-timeline .opx-weekdays-container .opx-current-event-controlls {}
+
+#openex-timeline .opx-slider-area-container {width: 100%;}
+#openex-timeline .opx-slider-area-container div.field-desc {width: 23%;height: 1.5em;position: relative;display:inline-block;z-index: 110;background: rgba(255,255,255,0.7);box-shadow: -3px 0px 5px rbga(255,255,255,1)}
+#openex-timeline .opx-slider-area-container div.field-desc > div {font-size: 90%;padding-left :0.3em;}
+#openex-timeline .opx-slider-area-container div.field-events {position: relative;top: -0.3em;width: 77%;height: 1.6em;display:inline-block;vertical-align: top;overflow:hidden;}
+#openex-timeline .opx-slider-area-container div.field-events .opx-interacting-event {background: rgba(0,0,255,0.4);height: 0.8em;position:absolute;top: 0.8em;z-index: 10000;opacity:1}
+
+#openex-timeline .opx-slider {width: 10%;height: 1em;background: rgba(0,160,0,0.6);z-index: 100;}
+#openex-timeline .opx-weekdays-container  .opx-slider {height: 2.8em;margin-bottom: -0.3em;top: -0.3em;}
+#openex-timeline .opx-weekdays-container .opx-slider-area-container div.field-events {height: 2.5em;top: -0.6em;}
+
+#openex-timeline .opx-weekrow-container .opx-current-event-slider {height:1.6em;margin-bottom: -1.1em;;z-index: 30;position: relative;background: none;top:0.40em}
+#openex-timeline  .opx-weekrow-container .opx-slider {position: relative; }
+
+.openex-callendar .opx-weekdays, .openex-callendar .opx-weekrow {    display: table;width: 100%;position:relative;}
+.openex-callendar .opx-weekdays {padding-left:1px;padding-right:1px;background: #fff;box-shadow: 0px 0px 10px rgba(0,0,0,0.2)}
+
+#openex-timeline .opx-row-activity-btn {border: 1px solid #f00;padding: 0;margin: 0;}
+#openex-timeline .opx-row-activity-label {padding: 0 0.5em 0 1em;background: rgba(255,255,255,0.01);float:right;position:relative;top: -0.35em;margin-right: 0.5em;}
+
+
+.openex-callendar .opx-weekdays > div, .openex-callendar .opx-weekrow > div {width:11%;display: table-cell;box-shadow:-1px 0px 0px rgba(0,0,0,0.1); border-bottom: 1px solid #ccc;position:relative;font-size: 90%;}
+.openex-callendar .opx-weekdays > div.opx-rowdesc, .openex-callendar .opx-weekrow > div.opx-rowdesc {width:23%;}
+.openex-callendar .opx-weekdays > div {padding: 5px;text-align: center;}
+.openex-callendar .opx-weekdays > div:last-child, .openex-callendar .opx-weekrow > div:last-child {border-right: none;}
+.openex-callendar .opx-weekrow  {padding: 0;line-height: 1em;border-bottom: 0;position:relative;z-index: 10;}
+.openex-callendar .opx-weekrow:nth-child(2n)  {}
+/*.openex-callendar .opx-one-hour {height: 1.4em;margin: 0;display: inline-block;width: 4.166%;background: #fff;}
+.openex-callendar .opx-one-hour.one-hour-2 {background: #f2f2f2}*/
+                                                                
+.opx-weekdays .opx-day, .opx-weekrow .opx-day {position:relative;}
+.opx-weekdays .opx-day.active, .opx-weekrow .opx-day.active {top:0;position:absolute;left:23%;width:77%;z-index: 15;background: #fff;margin: 0;}
+.opx-weekdays .opx-day.active {top: 3.3em;top:0;}
+.opx-weekrow .opx-day.active {background: #fff;}
+
+#openex-timeline .opx-slider.collision-warning, #openex-timeline .opx-interacting-event.collision-warning {background: rgba(200,180,0,0.5)}
+#openex-timeline .opx-slider.collision, #openex-timeline .opx-interacting-event.collision {background: rgba(255,0,0,0.5);}
+
+.openex-modal-contents .opx-header {margin: 0;padding: 1em 0 0 0.2em;font-size: 120%;}
+
+[data-in-progress="true"] {
+  background: rgba(255,0,0,0.5);
+  animation: openex-event-in-progress 4s infinite linear;
+  -webkit-animation: openex-event-in-progress 4s infinite linear;
+}
+
+[data-in-progress="1"] {
+  background: rgba(255,255,0,0.5);
+  animation: openex-event-preparations 4s infinite linear;
+  -webkit-animation: openex-event-preparations 4s infinite linear;
+}
+
+[data-in-progress="3"] {
+    background: rgba(0,128,0,0.6);
+
+}
+
+
+
+@keyframes openex-event-in-progress {
+  0%, 46%, 54% {background: rgba(255,0,0.5);opacity: 1;}
+  47% {opacity: 0.6;}
+  50% {background: rgba(255,0,0,1);opacity:1}
+}
+
+@keyframes openex-event-preparations {
+  0%, 46%, 54% {background: rgba(200,200,0.5);}
+  50% {background: rgba(200,200,0,1);}
+}
+
+
+
+
+
+
+@media (max-width: 767px) {
+.openex-callendar .opx-weekdays > div {font-size: 90%;}
+.openex-callendar .opx-weekdays > div > span {display: none;}
+}
+
+#openex-timeline .modal-body {padding: 0;}
+.opx-timeline {background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAD6AAAAACAQMAAAB2LbFNAAAABlBMVEXy8vL////jGPreAAAAJ0lEQVQoz2NgwAIY/2MBP7Cp5Mem8gE2lfXYVI5aPmgsHw33YW45AFsJ8WhkIi1BAAAAAElFTkSuQmCC) repeat-y;    background-size: 100% 100%;;height: 1.3em;}
+.resize-container-small, .opx-day.active .resize-container-full {display: none;}
+.opx-day.active .resize-container-small, .resize-container-full {display: inline-block;position: absolute;right: 0.25em;top: 0.1em;font-size: 70%}
+
+.resize-container-full {}
+.three-fields-in-row label {font-size: 80%;}
+
+
+.opx-current-event-controlls > * {}
+.opx-controls-indeed {position: relative;top: 0.3em;height: 1em;font-size: 80% !important;}
+.opx-current-event-controlls input {height: 1.9em !important;font-size: 100% !important}
+.opx-current-event-controlls .input-group-addon {height: 1.9em !important;font-size: 100% !important;padding-top: 0;padding-bottom: 0;position: relative;overflow:hidden;}
+
+
+.controls-event-time, .controls-main-time {display: none;}
+.controls-event-time.active, .controls-main-time.active {display: block;}
+
+
+
+.openex-modal-contents[data-day-active="false"]    {}
+                                                                                                                                                                                                                                                                                                                             
+.openex-modal-contents[data-day-active="0"] .field-events, .openex-modal-contents[data-day-active="1"] .field-events, .openex-modal-contents[data-day-active="2"] .field-events, .openex-modal-contents[data-day-active="3"] .field-events, .openex-modal-contents[data-day-active="4"] .field-events, .openex-modal-contents[data-day-active="5"] .field-events, .openex-modal-contents[data-day-active="6"] .field-events {
+    width: 539% !important;
+    margin-right: -462%;
+    position: relative;
+}                 
+
+ 
+
+                                    
+.openex-modal-contents[data-day-active="0"] .field-events {left: 0;}
+.openex-modal-contents[data-day-active="1"] .field-events {left: -77%;}
+.openex-modal-contents[data-day-active="2"] .field-events {left: -154%;}
+.openex-modal-contents[data-day-active="3"] .field-events {left: -231%;}
+.openex-modal-contents[data-day-active="4"] .field-events {left: -308%;}
+.openex-modal-contents[data-day-active="5"] .field-events {left: -385%}
+.openex-modal-contents[data-day-active="6"] .field-events {left: -462%}
+
+
+.data-rooms-schedule-container {display: none;}
+.select-a-room-and-times {position: relative;top:-1em}
+
+
